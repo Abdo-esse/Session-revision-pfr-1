@@ -21,29 +21,32 @@ function afficherToutesLesCandidatures(){
 function validerCandidature(id){
     candidatures.forEach(candidat => {
         if (candidat.id==id) {
-            candidat.statut="validée"
+           return candidat.statut="validée"
         }
     });
 }
 function rejeterCandidature(id){
     candidatures.forEach(candidat => {
         if (candidat.id==id) {
-            candidat.statut="rejetée"
+           return candidat.statut="rejetée"
         }
     });
 }
+
 function rechercherCandidat(nom){
-    candidatures.forEach(candidat => {
-        if (candidat.nom===nom) {
-            return console.table(candidat)
-        }
-    });
+    for (let i = 0; i < candidatures.length; i++) {
+        if (candidatures[i].nom===nom) {
+            return console.table(candidatures[i])
+        }  
+    }
+    return console.log('not existe');
 }
+
 function filtrerParStatut(statut){
     let candidaturesFitrer=[]
     candidatures.forEach(candidat => {
         if (candidat.statut===statut) {
-            candidaturesFitrer.push(candidat)
+            return candidaturesFitrer.push(candidat)
         }
     });
     console.table(candidaturesFitrer);
@@ -53,7 +56,7 @@ function nbrandidatures(statut){
     let candidaturesFitrer=[]
     candidatures.forEach(candidat => {
         if (candidat.statut===statut) {
-            candidaturesFitrer.push(candidat)
+            return candidaturesFitrer.push(candidat)
         }
     });
     return candidaturesFitrer.length
@@ -94,7 +97,7 @@ rejeterCandidature(1);
 rejeterCandidature(2);
 
 afficherToutesLesCandidatures()
-rechercherCandidat("Fatima ")
+rechercherCandidat("Abdo")
 filtrerParStatut("rejetée")
 statistiques()
 
