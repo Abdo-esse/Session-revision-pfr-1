@@ -15,7 +15,7 @@ abstract class  Vehicule
    protected $prixJour;
    protected bool $disponible;
    
-   public function __construnct($id,$immatriculation,$marque,$modele,$prixJour,$disponible){
+   public function __construct($id,$immatriculation,$marque,$modele,$prixJour,$disponible){
      $this->id=$id;
      $this->immatriculation=$immatriculation;
      $this->marque=$marque;
@@ -44,8 +44,8 @@ abstract class  Vehicule
     private $nbPortes;
     private $transmission;
     
-    public function __construnct($id,$immatriculation,$marque,$modele,$prixJour,$disponible,$nbPortes,$transmission){
-      parent::__construnct($id,$immatriculation,$marque,$modele,$prixJour,$disponible);
+    public function __construct($id,$immatriculation,$marque,$modele,$prixJour,$disponible,$nbPortes,$transmission){
+      parent::__construct($id,$immatriculation,$marque,$modele,$prixJour,$disponible);
       $this->nbPortes=$nbPortes;
       $this->transmission= $transmission;
     }
@@ -67,8 +67,8 @@ abstract class  Vehicule
   class Moto extends Vehicule implements ReservableInterface{
     private $cylindree;
     
-    public function __construnct($id,$immatriculation,$marque,$modele,$prixJour,$disponible,$cylindree){
-        parent::__construnct($id,$immatriculation,$marque,$modele,$prixJour,$disponible);
+    public function __construct($id,$immatriculation,$marque,$modele,$prixJour,$disponible,$cylindree){
+        parent::__construct($id,$immatriculation,$marque,$modele,$prixJour,$disponible);
       $this->cylindree=$cylindree;
     }
     
@@ -87,8 +87,8 @@ abstract class  Vehicule
   class Camion extends Vehicule implements ReservableInterface{
     private $capaciteTonnage;
     
-    public function __construnct($id,$immatriculation,$marque,$modele,$prixJour,$disponible,$capaciteTonnage){
-        parent::__construnct($id,$immatriculation,$marque,$modele,$prixJour,$disponible);
+    public function __construct($id,$immatriculation,$marque,$modele,$prixJour,$disponible,$capaciteTonnage){
+        parent::__construct($id,$immatriculation,$marque,$modele,$prixJour,$disponible);
       $this->capaciteTonnage=$capaciteTonnage;
     }
     
@@ -111,7 +111,7 @@ abstract class  Vehicule
     protected $prenom;
     protected $email;
    
-   public function __construnct($nom,$prenom,$email){
+   public function __construct($nom,$prenom,$email){
      $this->nom=$nom;
      $this->prenom=$prenom;
      $this->email=$email;
@@ -126,8 +126,8 @@ abstract class  Vehicule
    private $numeroClient;
    private  $reservations ;
    
-   public function __construnct($nom,$prenom,$email,$numeroClient,){
-    parent::__construnct($nom,$prenom,$email);
+   public function __construct($nom,$prenom,$email,$numeroClient){
+    parent::__construct($nom,$prenom,$email);
     $this->numeroClient=$numeroClient;
   }
 
@@ -137,8 +137,13 @@ abstract class  Vehicule
 
 
    public function afficherProfil(){
-    $info= "your name: $this->nom, prenom : $this->prenom, email: $this->email, nemero:  $this->numeroClient ";
-    $info.=print_r($this->reservations);
+    $info= "Votre information est \n
+             nom: $this->nom,\n
+              prenom : $this->prenom,\n
+               email: $this->email,\n
+                nemero:  $this->numeroClient,\n 
+                reservations:" .$this->getHistorique();
+
     return $info;
    }
    public function getHistorique(){
@@ -157,7 +162,7 @@ abstract class  Vehicule
     private array $vehicules ;
     private array $clients  ;
 
-    public function __construnct($nom,$ville){
+    public function __construct($nom,$ville){
         $this->nom=$nom;
         $this->ville=$ville;
     }
@@ -189,7 +194,7 @@ abstract class  Vehicule
     private $nbJours;
     private $statut;
 
-    public function __construnct($vehicule, $client, $dateDebut, $nbJours){
+    public function __construct($vehicule, $client, $dateDebut, $nbJours){
           
         $this->vehicule=$vehicule;
         $this->client=$client;
