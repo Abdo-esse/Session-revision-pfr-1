@@ -74,15 +74,22 @@ function statistiques(){
     )
 }
 function trierParAge(desc = false){
-    let nomCandidate=[]
+    let AgeCandidate=[]
     candidatures.forEach(candidat => {
-       nomCandidate.push(candidat.age);
+       AgeCandidate.push(candidat.age);
        });
        if (desc) {
-        console.log(nomCandidate.sort((a,b)=>b-a));
+        console.log(AgeCandidate.sort((a,b)=>b-a));
        }else{
-        console.log(nomCandidate.sort((a,b)=>a-b));        
+        console.log(AgeCandidate.sort((a,b)=>a-b));        
        }        
+}
+function trierParNom(){
+    let nomCandidate=[]
+    candidatures.forEach(candidat => {
+       nomCandidate.push(candidat.nom);
+       });
+        console.log(nomCandidate.sort());            
 }
 
 function resetSysteme(){
@@ -102,5 +109,6 @@ filtrerParStatut("rejetée")
 statistiques()
 
 trierParAge(true)
+trierParNom()
 resetSysteme()
 afficherToutesLesCandidatures()
