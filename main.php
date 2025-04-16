@@ -13,7 +13,7 @@ abstract class  Vehicule
    protected $marque;
    protected $modele;
    protected $prixJour;
-   protected $disponible;
+   protected bool $disponible;
    
    public function __construnct($id,$immatriculation,$marque,$modele,$prixJour,$disponible){
      $this->id=$id;
@@ -33,7 +33,7 @@ abstract class  Vehicule
      return $this->prixJour * $jours;
    }
     public function estDisponible(){
-      
+      return $this->disponible;
     }
     public abstract function  getType(); 
    
@@ -51,12 +51,12 @@ abstract class  Vehicule
     }
     
     public function reserver(Client $client, DateTime $dateDebut, int $nbJours){
-        $reservation=new Reservation($this,Client $client, DateTime $dateDebut, int $nbJours);
+        $reservation=new Reservation($this, $client,  $dateDebut,  $nbJours);
       return ;
     }
 
     public function getType(){
-        return $this->marque;
+        return "Voiture";
     }
 
     public function afficherDetails(){
@@ -73,11 +73,11 @@ abstract class  Vehicule
     }
     
     public function reserver(Client $client, DateTime $dateDebut, int $nbJours){
-      return new Reservation($this, Client $client, DateTime $dateDebut, int $nbJours);
+      return new Reservation($this,  $client,  $dateDebut,  $nbJours);
     }
 
     public function getType(){
-        return $this->marque;
+        return "Moto";
     }
 
     public function afficherDetails(){
@@ -93,11 +93,11 @@ abstract class  Vehicule
     }
     
     public function reserver(Client $client, DateTime $dateDebut, int $nbJours){
-      return new Reservation($this, Client $client, DateTime $dateDebut, int $nbJours);
+      return new Reservation($this,  $client,  $dateDebut,  $nbJours);
     }
 
     public function getType(){
-        return $this->marque;
+        return "Camion";
     }
 
     public function afficherDetails(){
@@ -108,8 +108,8 @@ abstract class  Vehicule
   abstract class  Personne{
 
     protected $nom;
-   protected $prenom;
-   protected $email;
+    protected $prenom;
+    protected $email;
    
    public function __construnct($nom,$prenom,$email){
      $this->nom=$nom;
@@ -120,9 +120,99 @@ abstract class  Vehicule
 
    public abstract  function afficherProfil();
   }
+   class  Client extends Personne {
+
+    
+   private $numeroClient;
+   private  $reservations ;
+   
+   public function __construnct($nom,$prenom,$email,$numeroClient,){
+    parent::__construnct($nom,$prenom,$email);
+    $this->numeroClient=$numeroClient;
+  }
+
+  public function ajouterReservation(Reservation $r){
+    $this->reservations[]= $r;
+  }
+
+
+   public function afficherProfil(){
+    $info= "your name: $this->nom, prenom : $this->prenom, email: $this->email, nemero:  $this->numeroClient ";
+    $info.=print_r($this->reservations);
+    return $info;
+   }
+   public function getHistorique(){
+    foreach($this->reservations as $reservation){
+        if($reservation->getStatus()=="confirmer"){
+         echo $reservation."\n";
+        }
+    }
+   }
+  }
 
   
-	
+  class Agence{
+    private $nom;
+    private $ville;
+    private array $vehicules ;
+    private array $clients  ;
+
+    public function __construnct($nom,$ville){
+        $this->nom=$nom;
+        $this->ville=$ville;
+    }
+
+    public function ajouterVehicule(Vehicule $v){
+        $this->vehicules[]=$v;
+    }
+    public function enregistrerClient(Client $c){
+        $this->clients[]=$c;
+    }
+    public function rechercherVehiculeDisponible(string $type)    {
+        foreach($this->vehicules as $vehicule)
+        if($vehicule->getType()== $type && $vehicule->estDisponible() ){
+            return $vehicule->afficherDetails();
+        }
+    }
+
+    public function faireReservation(Client $client, Vehicule $v, DateTime $dateDebut, int $nbJours): Reservation{
+        return  new Reservation($v, $client,  $dateDebut,  $nbJours);
+    }
+
+
+  }
+
+  class Reservation{
+    private $vehicule;
+    private $client;
+    private $dateDebut;
+    private $nbJours;
+    private $statut;
+
+    public function __construnct($vehicule, $client, $dateDebut, $nbJours){
+          
+        $this->vehicule=$vehicule;
+        $this->client=$client;
+        $this->dateDebut=$dateDebut;
+        $this->nbJours=$nbJours;
+    }
+
+    public function calculerMontant(){
+        return $this->vehicule->calculerPrix($this->nbJours);
+    }
+
+    public function confirmer(){
+        $this->statut="confirmer";
+    }
+    public function  annuler(){
+        $this->statut="annuler";
+    }
+
+    public function getStatus(){
+        return $this->statut;
+    }
+
+  }
 	
 	
 	
