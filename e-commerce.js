@@ -21,13 +21,10 @@ let ventes = [
             for (let j = 0; j < resultat.length; j++) {
                 if (resultat[j].categorie==ventes[i].categorie) {
                     resultat[j].totalProduits+=ventes[i].produits.length;
-                    resultat[j].totalVentes+=sumPrix(ventes[i].produits)
-                    
-                }
-                
+                    resultat[j].totalVentes+=sumPrix(ventes[i].produits)                    
+                }                
             }
-        }
-    
+        }    
     }
     return resultat
 }
